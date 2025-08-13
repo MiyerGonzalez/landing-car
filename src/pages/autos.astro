@@ -1,0 +1,55 @@
+---
+import Cards from '../components/cards.astro';
+
+const cars = [
+  {
+    id: '1',
+    name: 'SUV Compacta',
+    model: '2023',
+    brand: 'Kia',
+    description: 'Ideal para ciudad y viajes cortos. Bajo consumo y buen espacio.',
+    image: '/images/cars/kia-seltos.jpg',
+  },
+  {
+    id: '2',
+    name: 'Sedán Ejecutivo',
+    model: '2022',
+    brand: 'Toyota',
+    description: 'Confort y seguridad para viajes largos. Amplio maletero.',
+    image: '/images/cars/toyota-corolla.jpg',
+  },
+  {
+    id: '3',
+    name: 'Pickup 4x4',
+    model: '2024',
+    brand: 'Ford',
+    description: 'Potencia y tracción para terrenos exigentes. Lista para aventuras.',
+    image: '/images/cars/ford-ranger.jpg',
+  },
+  {
+    id: '4',
+    name: 'Deportivo Convertible',
+    model: '2021',
+    brand: 'Mazda',
+    description: 'Estilo y velocidad. Perfecto para disfrutar del aire libre.',
+    image: '/images/cars/mazda-mx5.jpg',
+  },
+  {
+    id: '5',
+    name: 'Hatchback Económico',
+    model: '2023',
+    brand: 'Hyundai',
+    description: 'Compacto y eficiente. Ideal para la ciudad.',
+    image: '/images/cars/hyundai-i20.jpg',
+  },
+];
+---
+
+<Cards cars={cars} title="Explora nuestra flota" />
+
+
+  
+
+
+
+
