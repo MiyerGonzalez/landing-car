@@ -1,25 +1,34 @@
 ---
 // src/components/cards.astro
 interface Car {
-  id?: string;
-  name: string;
-  model: string;
+  id: string | number;
   brand: string;
+  model: string;
   description: string;
+  pricePerDay: number | string;
   image: string;
   alt?: string;
-  pricePerDay?: string;
+  name?: string; // opcional (ej. "SUV Compacta")
 }
 
 const {
   cars = [] as Car[],
   title = 'Autos disponibles',
 } = Astro.props;
----
 
-<section data-slider class="relative flex flex-col items-center">
-  <div class="mb-4 flex items-center justify-between w-full max-w-lg mx-auto">
+// Aseguramos un orden estable por id (si es numérico) y mantenimiento de todos los ids.
+const normalized = cars
+  .map((c, i) => ({
+    ...c,
+    __id: String(c.id ?? i),
+    __num: typeof c.id === 'number' ? c.id : Number.isFinite(Number(c.id)) ? Number(c.id) : i,
+  }))
+  .sort((a, b) => a.__num - b.__num);
+---
+<section data-slider class="relative">
+  <div class="mb-4 flex items-center justify-between">
     <h2 class="text-lg font-semibold text-gray-900">{title}</h2>
+
     <div class="flex gap-2">
       <button
         type="button"
@@ -44,19 +53,24 @@ const {
     </div>
   </div>
 
-  <div class="relative w-full flex justify-center">
+  <div class="relative">
     <div
-      class="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth justify-center w-full max-w-lg"
+      class="no-scrollbar flex items-stretch gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
       data-track
       aria-label="Carrusel de autos"
-      style="scrollbar-width: none;"
+      style="--spacer: 0px;"
     >
-      {cars.map((car) => (
+      <!-- Espaciadores dinámicos para centrar primera/última -->
+      <div class="spacer snap-none shrink-0" aria-hidden="true"></div>
+
+      {normalized.map((car, idx) => (
         <article
-          class="snap-center shrink-0 w-full max-w-md rounded-xl border border-gray-100 bg-white shadow-sm transition-transform duration-300"
-          style="min-width: 100%;"
+          id={`car-${car.__id}`}
+          data-index={idx}
+          data-id={car.__id}
+          class="card snap-center shrink-0 w-full max-w-2xl min-w-[350px] rounded-2xl border border-gray-100 bg-white shadow-lg"
         >
-          <div class="relative aspect-[16/9] w-full overflow-hidden rounded-t-xl bg-gray-100">
+          <div class="relative aspect-[16/9] w-full overflow-hidden rounded-t-2xl bg-gray-100">
             <img
               src={car.image}
               alt={car.alt ?? `${car.brand} ${car.model}`}
@@ -64,39 +78,65 @@ const {
               class="h-full w-full object-cover"
             />
           </div>
-          <div class="p-4">
-            <h3 class="text-base font-semibold text-gray-900">{car.name}</h3>
-            <p class="mt-1 text-sm text-gray-600">
-              <span class="font-medium">{car.brand}</span> · {car.model}
+
+          <div class="p-8">
+            <h3 class="text-2xl font-bold text-gray-900">
+              {car.name ?? `${car.brand} ${car.model}`}
+            </h3>
+            <p class="mt-2 text-lg text-gray-600">
+              <span class="font-semibold">{car.brand}</span> · {car.model}
             </p>
-            <p class="mt-3 text-sm text-gray-700 line-clamp-3">
+            <p class="mt-4 text-base text-gray-700 line-clamp-3">
               {car.description}
             </p>
+
+            <div class="mt-6 flex items-baseline justify-between">
+              <span class="text-2xl font-bold text-blue-700" data-price>
+                {String(car.pricePerDay)}
+              </span>
+              <span class="text-sm text-gray-500">por día</span>
+            </div>
           </div>
         </article>
       ))}
+
+      <div class="spacer snap-none shrink-0" aria-hidden="true"></div>
     </div>
-    <div class="pointer-events-none absolute -bottom-2 left-0 right-0 flex justify-center gap-2" data-dots></div>
+
+    <div class="pointer-events-none mt-3 flex justify-center gap-2" data-dots></div>
   </div>
 </section>
 
 <style is:global>
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Clamp si no usas plugin */
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-[data-slider] {
+
+/* Los espaciadores se dimensionan vía --spacer calculada en JS */
+.spacer { width: var(--spacer); }
+
+/* Para mantener una sola tarjeta protagonistas, usa un ancho fijo cómodo */
+.card {
+  scroll-snap-align: center;
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
+  min-width: 350px;
+  max-width: 640px; /* 2xl */
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 1rem;
+  box-shadow: 0 6px 32px 0 rgba(0,0,0,0.10);
 }
 [data-track] {
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
 
@@ -104,19 +144,81 @@ const {
   (() => {
     const sliders = document.querySelectorAll('[data-slider]');
 
+    const formatCOP = (value) => {
+      if (typeof value === 'number' || !Number.isNaN(Number(value))) {
+        return new Intl.NumberFormat('es-CO', {
+          style: 'currency',
+          currency: 'COP',
+          maximumFractionDigits: 0,
+        }).format(Number(value));
+      }
+      return String(value);
+    };
+
     sliders.forEach((root) => {
       const track = root.querySelector('[data-track]');
-      const prev = root.querySelector('[data-prev]') as HTMLButtonElement | null;
-      const next = root.querySelector('[data-next]') as HTMLButtonElement | null;
+      const prev = root.querySelector('[data-prev]');
+      const next = root.querySelector('[data-next]');
       const dotsContainer = root.querySelector('[data-dots]');
       if (!track || !prev || !next) return;
 
-      const items = Array.from(track.children);
+      const items = Array.from(track.querySelectorAll('.card'));
+      const spacers = Array.from(track.querySelectorAll('.spacer'));
+
+      // Formatear precios
+      items.forEach((card) => {
+        const priceEl = card.querySelector('[data-price]');
+        if (priceEl) priceEl.textContent = formatCOP(priceEl.textContent);
+      });
+
       if (items.length === 0) {
-        if (prev) prev.disabled = true;
-        if (next) next.disabled = true;
+        (prev as HTMLButtonElement).disabled = true;
+        (next as HTMLButtonElement).disabled = true;
         return;
       }
+
+      // Calcular gap en px
+      const gapPx = () => parseFloat(getComputedStyle(track).gap || '0');
+
+      // Ancho efectivo de un item (card + gap)
+      const itemWidth = () => {
+        const first = items[0];
+        if (!first) return 0;
+        const rect = first.getBoundingClientRect();
+        return rect.width + gapPx();
+      };
+
+      // Establecer espaciadores para centrar el primer/último elemento
+      const setSpacers = () => {
+        const card = items[0];
+        if (!card) return;
+        const vw = window.innerWidth;
+        const rect = card.getBoundingClientRect();
+        const spacer = Math.max(0, (vw - rect.width) / 2);
+        (track as HTMLElement).style.setProperty('--spacer', spacer + 'px');
+      };
+
+      // Índice centrado actual
+      const getIndex = () => {
+        const w = itemWidth();
+        if (w <= 0) return 0;
+        const idx = Math.round(track.scrollLeft / w);
+        return Math.max(0, Math.min(items.length - 1, idx));
+      };
+
+      const getTargetLeft = (index) => index * itemWidth();
+
+      const update = () => {
+        const i = getIndex();
+        (prev as HTMLButtonElement).disabled = i <= 0;
+        (next as HTMLButtonElement).disabled = i >= items.length - 1;
+        if (dotsContainer) {
+          dotsContainer.querySelectorAll('button').forEach((dot, j) => {
+            dot.classList.toggle('bg-gray-900', j === i);
+            dot.classList.toggle('bg-gray-300', j !== i);
+          });
+        }
+      };
 
       // Crear dots
       if (dotsContainer) {
@@ -125,41 +227,12 @@ const {
           const dot = document.createElement('button');
           dot.type = 'button';
           dot.setAttribute('aria-label', 'Ir a la tarjeta ' + (i + 1));
-          dot.className = 'pointer-events-auto h-2 w-4 rounded-full bg-gray-300 transition-colors';
+          dot.className = 'pointer-events-auto h-2 w-2 rounded-full bg-gray-300 transition-colors';
           dot.addEventListener('click', () => {
             track.scrollTo({ left: getTargetLeft(i), behavior: 'smooth' });
           });
           dotsContainer.appendChild(dot);
         });
-      }
-
-      function gapPx() {
-        const g = getComputedStyle(track).gap || '0px';
-        return parseFloat(g);
-      }
-      function itemWidth() {
-        const first = items[0];
-        if (!first) return 0;
-        const rect = first.getBoundingClientRect();
-        return rect.width + gapPx();
-      }
-      function getIndex() {
-        const idx = Math.round(track.scrollLeft / itemWidth());
-        return Math.max(0, Math.min(items.length - 1, idx));
-      }
-      function getTargetLeft(index) {
-        return index * itemWidth();
-      }
-      function update() {
-        const i = getIndex();
-        prev.disabled = i <= 0;
-        next.disabled = i >= items.length - 1;
-        if (dotsContainer) {
-          dotsContainer.querySelectorAll('button').forEach((dot, j) => {
-            dot.classList.toggle('bg-gray-900', j === i);
-            dot.classList.toggle('bg-gray-300', j !== i);
-          });
-        }
       }
 
       prev.addEventListener('click', () => {
@@ -169,24 +242,29 @@ const {
         track.scrollBy({ left: itemWidth(), behavior: 'smooth' });
       });
 
-      // Actualiza dots/botones en scroll con rAF para suavidad
+      // Scroll -> actualizar UI
       let ticking = false;
       track.addEventListener('scroll', () => {
         if (ticking) return;
         ticking = true;
-        requestAnimationFrame(() => {
-          update();
-          ticking = false;
-        });
+        requestAnimationFrame(() => { update(); ticking = false; });
       }, { passive: true });
 
-      // Mantén el índice correcto en cambios de tamaño
-      const ro = new ResizeObserver(() => update());
+      // Recalcular en resize
+      const ro = new ResizeObserver(() => {
+        setSpacers();
+        update();
+      });
       ro.observe(track);
+      items.forEach((it) => ro.observe(it));
 
+      // Inicio: aseguramos ver el primer id
+      setSpacers();
+      track.scrollTo({ left: 0 });
       update();
     });
   })();
 </script>
+
 
 

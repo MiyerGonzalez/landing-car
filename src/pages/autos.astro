@@ -1,51 +1,60 @@
 ---
+// src/pages/autos.astro
 import Cards from '../components/cards.astro';
 
+// 4 tarjetas iniciales; puedes agregar más a futuro sin cambiar el componente.
 const cars = [
   {
-    id: '1',
-    name: 'SUV Compacta',
-    model: '2023',
+    id: 1,
     brand: 'Kia',
-    description: 'Ideal para ciudad y viajes cortos. Bajo consumo y buen espacio.',
+    model: 'Seltos 2023',
+    description: 'SUV compacta, eficiente y cómoda para ciudad y carretera.',
+    pricePerDay: 180000,
     image: '/images/cars/kia-seltos.jpg',
+    name: 'SUV Compacta',
   },
   {
-    id: '2',
-    name: 'Sedán Ejecutivo',
-    model: '2022',
+    id: 2,
     brand: 'Toyota',
-    description: 'Confort y seguridad para viajes largos. Amplio maletero.',
+    model: 'Corolla 2022',
+    description: 'Sedán confiable con excelente consumo y seguridad.',
+    pricePerDay: 200000,
     image: '/images/cars/toyota-corolla.jpg',
+    name: 'Sedán Ejecutivo',
   },
   {
-    id: '3',
-    name: 'Pickup 4x4',
-    model: '2024',
+    id: 3,
     brand: 'Ford',
-    description: 'Potencia y tracción para terrenos exigentes. Lista para aventuras.',
+    model: 'Ranger 2024',
+    description: 'Pickup 4x4 potente para aventuras y trabajo pesado.',
+    pricePerDay: 320000,
     image: '/images/cars/ford-ranger.jpg',
+    name: 'Pickup 4x4',
   },
   {
-    id: '4',
-    name: 'Deportivo Convertible',
-    model: '2021',
-    brand: 'Mazda',
-    description: 'Estilo y velocidad. Perfecto para disfrutar del aire libre.',
-    image: '/images/cars/mazda-mx5.jpg',
-  },
-  {
-    id: '5',
-    name: 'Hatchback Económico',
-    model: '2023',
-    brand: 'Hyundai',
-    description: 'Compacto y eficiente. Ideal para la ciudad.',
-    image: '/images/cars/hyundai-i20.jpg',
+    id: 4,
+    brand: 'Chevrolet',
+    model: 'Onix 2023',
+    description: 'Hatchback versátil, ideal para el día a día.',
+    pricePerDay: 150000,
+    image: '/images/cars/chevrolet-onix.jpg',
+    name: 'Hatchback Urbano',
   },
 ];
 ---
 
-<Cards cars={cars} title="Explora nuestra flota" />
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Autos en alquiler</title>
+  </head>
+  <body class="bg-gray-50">
+    <main class="mx-auto max-w-7xl px-4 py-8">
+      <Cards cars={cars} title="Explora nuestra flota" />
+    </main>
+  </body>
+</html>
+
 
 
   
