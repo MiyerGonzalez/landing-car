@@ -1,61 +1,70 @@
 ---
 // src/pages/autos.astro
 import Cards from '../components/cards.astro';
+import Layout from '../layouts/Layout.astro';
+import LandingHeader from '../components/LandingHeader.astro';
 
 // 4 tarjetas iniciales; puedes agregar más a futuro sin cambiar el componente.
 const cars = [
   {
     id: 1,
-    brand: 'Kia',
+    brand: 'Hyundai',
     model: 'Seltos 2023',
     description: 'SUV compacta, eficiente y cómoda para ciudad y carretera.',
     pricePerDay: 180000,
-    image: '/images/cars/kia-seltos.jpg',
+    image: '/hyundai.jpg',
     name: 'SUV Compacta',
   },
   {
     id: 2,
-    brand: 'Toyota',
+    brand: 'volkswagen',
     model: 'Corolla 2022',
     description: 'Sedán confiable con excelente consumo y seguridad.',
     pricePerDay: 200000,
-    image: '/images/cars/toyota-corolla.jpg',
+    image: '/vw.jpg',
     name: 'Sedán Ejecutivo',
   },
   {
     id: 3,
-    brand: 'Ford',
+    brand: 'Samurai',
     model: 'Ranger 2024',
     description: 'Pickup 4x4 potente para aventuras y trabajo pesado.',
     pricePerDay: 320000,
-    image: '/images/cars/ford-ranger.jpg',
+    image: '/samuray.jpg',
     name: 'Pickup 4x4',
   },
   {
     id: 4,
-    brand: 'Chevrolet',
+    brand: 'Hyundai',
     model: 'Onix 2023',
     description: 'Hatchback versátil, ideal para el día a día.',
     pricePerDay: 150000,
-    image: '/images/cars/chevrolet-onix.jpg',
+    image: '/hyd.jpg',
     name: 'Hatchback Urbano',
   },
 ];
 ---
-
 <html lang="es">
+<Layout title="Tesla - El coche de tus sueños (y de Elon Musk)">
+  <LandingHeader />
+
+  <main
+    class="snap-y snap-mandatory relative w-full h-screen overflow-y-auto overflow-x-hidden scroll-smooth"
+  >
   <head>
     <meta charset="utf-8" />
     <title>Autos en alquiler</title>
   </head>
   <body class="bg-gray-50">
     <main class="mx-auto max-w-7xl px-4 py-8">
-      <Cards cars={cars} title="Explora nuestra flota" />
+      <Cards cars={cars} title="Autos Disponibles" />
     </main>
   </body>
+  </main>
+</Layout>
 </html>
 
-
+ 
 
   
 
