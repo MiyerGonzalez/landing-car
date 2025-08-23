@@ -1,0 +1,23 @@
+---
+import Accessories from "../components/Accessories.astro";
+import LandingHeader from "../components/LandingHeader.astro";
+import PowerWall from "../components/PowerWall.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<html lang="es">
+<Layout title="Tesla - El coche de tus sueños (y de Elon Musk)">
+  <LandingHeader />
+
+  <main
+    class="snap-y snap-mandatory relative w-full h-screen overflow-y-auto overflow-x-hidden scroll-smooth"
+  >
+    <div class="snap-center">
+      <PowerWall />
+    </div>
+    <div class="snap-center">
+      <Accessories />
+    </div>
+  </main>
+</Layout>
+</html>

@@ -3,19 +3,14 @@ import Section from "./Section.astro"
 ---
 
 <Section
-  title="Accesorios"
-  subtitle=""
+  title=""
+  subtitle="Visita nuestras oficinas"
   color="black"
   id="accesorios"
   showFooterContent="true"
 >
   <div slot="footer" class="gap-x-6 flex mx-auto">
-    <a
-      class="border-[3px] border-black bg-black text-sm rounded font-medium text-white px-12 py-2 inline-block transition-colors duration-300 hover:border-gray-800 hover:bg-gray-800"
-      href="#"
-    >
-      Comprar ahora</a
-    >
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.490989975058!2d-75.57607062500982!3d6.198768493788965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4683cbfddf5c0b%3A0x92c0e485916d46a8!2sCentro%20Comercial%20R%C3%ADo%20Sur!5e0!3m2!1sen!2sco!4v1755914780595!5m2!1sen!2sco" width="400" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     <!-- <a
       class="bg-white text-sm rounded font-medium px-12 py-2 transition-colors hover:bg-black hover:text-white inline-flex justify-center items-center text-black"
       href="#"
@@ -28,7 +23,7 @@ import Section from "./Section.astro"
     slot="background"
     alt="Accesorios"
     class="h-full w-full object-cover object-center"
-    src="accessories.avif"
+    src="/accessories.avif"
     id="bg-image-accessories"
   />
 </Section>
@@ -50,8 +45,8 @@ import Section from "./Section.astro"
   ) as HTMLImageElement
 
   if (isEdge()) {
-    imageElement.src = "accessories.webp"
+    imageElement.src = "/accessories.webp"
   } else {
-    imageElement.src = "accessories.avif"
+    imageElement.src = "/accessories.avif"
   }
 </script>

@@ -4,17 +4,14 @@ import Section from "./Section.astro"
 
 <Section
   title=""
-  subtitle="Energía para todos"
+  subtitle="contactanos para brindarte asesoría"
   color="black"
   id="powerwall"
 >
   <div slot="footer" class="gap-x-6 flex mx-auto">
-    <a
-      class="border-[3px] border-black bg-black text-sm rounded font-medium text-white px-12 py-2 inline-block transition-colors duration-300 hover:border-gray-800 hover:bg-gray-800"
-      href="#"
-    >
-      Visitenos</a
-    >
+    <a href="https://wa.me/573158467876/?text=En que auto estas interesado" target="_blank">
+    <img src="/wtsapp.png" width="100" height="100">
+ </a>
     <!-- <a
       class="bg-white text-sm rounded font-medium px-12 py-2 transition-colors hover:bg-black hover:text-white inline-flex justify-center items-center text-black"
       href="#"
@@ -27,7 +24,7 @@ import Section from "./Section.astro"
     slot="background"
     alt="Solar y Powerwall"
     class="h-full w-full object-cover object-center"
-    src="powerwall.avif"
+    src="/powerwall.avif"
     id="bg-image-powerwall"
   />
 </Section>
@@ -49,8 +46,8 @@ import Section from "./Section.astro"
   ) as HTMLImageElement
 
   if (isEdge()) {
-    imageElement.src = "powerwall.webp"
+    imageElement.src = "/powerwall.webp"
   } else {
-    imageElement.src = "powerwall.avif"
+    imageElement.src = "/powerwall.avif"
   }
 </script>
