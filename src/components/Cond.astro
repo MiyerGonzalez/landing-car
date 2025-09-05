@@ -1,0 +1,42 @@
+---
+import Section from "./Section.astro"
+---
+
+<Section
+  title=""
+  subtitle="requisitos"
+  color="black"
+  id="cond"
+>
+
+  <img
+    slot="background"
+    alt="Solar y Powerwall"
+    class="h-full w-full object-cover object-center"
+    src="/cond.avif"
+    id="bg-image-cond"
+  />
+</Section>
+
+<script>
+  function isEdge() {
+    if (
+      navigator.userAgent.indexOf("Edge") > -1 ||
+      navigator.userAgent.indexOf("Edg") > -1
+    ) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  let imageElement = document.querySelector(
+    "#bg-image-cond"
+  ) as HTMLImageElement
+
+  if (isEdge()) {
+    imageElement.src = "/cond.webp"
+  } else {
+    imageElement.src = "/cond.avif"
+  }
+</script>

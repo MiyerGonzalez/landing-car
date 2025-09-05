@@ -1,0 +1,65 @@
+---
+import LandingHeader from "../components/LandingHeader.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<html lang="es">
+<Layout title="Tesla - El coche de tus sueños (y de Elon Musk)">
+  <LandingHeader />
+
+  <main
+    class="snap-y snap-mandatory relative w-full h-screen overflow-y-auto overflow-x-hidden scroll-smooth"
+  >
+    <!-- <div class="snap-center">
+      <Terms />
+    </div>
+    <div class="snap-center">
+      <Cond />
+    </div>-->
+    <div class="w-full flex justify-center">
+    <div class="max-w-2xl text-center mx-auto mt-8 text-lg text-gray-800">
+      <h1>Terminos y condiciones</h1>
+      <h2>Requisitos del Conductor:</h2><br>
+<h3>Documentos:</h3> Debes presentar tu documento de identidad (cédula o pasaporte) y tu licencia de conducción. Ambas deben estar originales y vigentes. Si tu licencia no está en alfabeto romano, necesitas el Permiso Internacional de Conducción.<br> <br>
+
+<h3>Edad Mínima:</h3> Generalmente, debes tener 21 años cumplidos. Si tienes entre 21 y 24 años, es muy probable que te apliquen un recargo diario por ser "conductor joven".<br><br>
+
+<h3>La Tarjeta de Crédito y el Depósito:</h3>
+Obligatoria: Se solicita una tarjeta de crédito a nombre del conductor principal. No se aceptan tarjetas de débito, virtuales o de terceros para la garantía.<br><br>
+
+<h3>Depósito de Garantía:</h3> Se realizará un bloqueo (no un cobro) en tu tarjeta de crédito por un monto significativo. Este valor, que puede ir desde $800.000 hasta más de $4.000.000 COP, sirve para cubrir posibles multas, daños, o el deducible del seguro. Es fundamental que tu tarjeta tenga el cupo suficiente para este bloqueo más el costo del alquiler.<br><br>
+
+<h3>Seguros:</h3> El alquiler siempre incluye un seguro básico (SOAT) y una cobertura parcial por robo y daños. Sin embargo, esta cobertura tiene un deducible alto (el monto que pagas de tu bolsillo en caso de un incidente). Puedes comprar seguros adicionales para reducir o eliminar ese deducible.<br><br>
+
+<h3>Combustible:</h3> La regla general es "lleno por lleno". Recibes el carro con el tanque lleno y así mismo debes devolverlo para evitar sobrecostos.<br><br>
+
+<h3>Conductor Adicional:</h3> Si alguien más va a manejar, debes registrarlo en el contrato. Esto tiene un costo extra diario.<br><br>
+
+<h3>Leyes Locales:</h3> Eres responsable de cumplir con las normas de tránsito, incluyendo las restricciones de circulación como el "Pico y Placa" en las grandes ciudades.
+    </div>
+  </div>
+  </main>
+</Layout>
+</html>
+<style>
+  body {
+    background-image: url('/terms.webp');
+    background-image: url('/terms.avif');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+  }
+
+  div {
+    margin-top: 50px;
+    margin-left: 15px;
+    margin-right: 50px;
+    text-align: justify;
+  }
+
+  h1{
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+</style>
